@@ -8,6 +8,9 @@ class EstateProperty(models.Model):
     def _in_three_months(self):
         return fields.Date.add(fields.Date.context_today(self), months=3)
 
+    def _current_user(self):
+        return self.env.user
+
     name = fields.Char(required=True)
     description = fields.Text()
     postcode = fields.Char()
@@ -34,3 +37,8 @@ class EstateProperty(models.Model):
         ('sold', 'Sold'),
         ('canceled', 'Canceled')
     ], default='new')
+    property_type_id = fields.Many2one('estate.property.type')
+    buyer_id = fields.Many2one('res.partner', copy=False)
+    salesperson_id = fields.Many2one('res.users', default=_current_user)
+    offers_ids = fields.One2many('estate.property.offer', 'property_id')
+    tag_ids = fields.Many2many('estate.property.tag')

@@ -49,6 +49,7 @@
                                    placeholder="e.g. House 1 "/>
                         </h1>
                     </div>
+                    <field name="tag_ids" widget="many2many_tags"/>
                     <group>
                         <group>
                             <field name="postcode" string="Postcode"/>
@@ -71,6 +72,18 @@
                                     <field name="garden_area" invisible="not garden"
                                            string="Garden Area(sqm)"/>
                                 </group>
+                            </group>
+                        </page>
+                        <page string="Offers">
+                            <group>
+                                <field name="offers_ids" string="">
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Others Info">
+                            <group>
+                                <field name="buyer_id" string="Buyer"/>
+                                <field name="salesperson_id" string="Salesperson"/>
                             </group>
                         </page>
                     </notebook>
