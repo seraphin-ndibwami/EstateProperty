@@ -1,5 +1,5 @@
 from odoo import models, fields, api, _
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 
 class EstateProperty(models.Model):
@@ -93,3 +93,22 @@ class EstateProperty(models.Model):
 
         self.state = 'canceled'
         return True
+
+    _sql_constraints = [
+        ("check_expected_price", "CHECK(expected_price > 0)", "The expected price must be positive"),
+        ("check_selling_price", "CHECK(selling_price IS NULL OR selling_price > 0)",
+            "The selling price must be positive"),
+    ]
+
+    @api.constrains('selling_price', 'expected_price')
+    def _check_selling_price(self):
+        """
+        The selling price cannot be lower than 90% of the expected price
+        """
+        self.ensure_one()
+        if self.selling_price and self.selling_price < self.expected_price * 0.9:
+            self.selling_price = 0
+            self.buyer_id = False
+            raise ValidationError(
+                _(f"The selling price {self.selling_price} $ of {self.name} cannot be lower than 90% \
+                  of the expected price ({self.expected_price} $)"))
