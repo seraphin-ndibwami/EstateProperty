@@ -71,6 +71,7 @@
                                     <field name="garden" string="Garden"/>
                                     <field name="garden_area" invisible="not garden"
                                            string="Garden Area(sqm)"/>
+                                    <field name="total_area" string="Total Area(sqm)" />
                                 </group>
                             </group>
                         </page>
