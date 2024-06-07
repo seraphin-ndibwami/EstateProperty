@@ -7,4 +7,8 @@
     'summary': "Real Estate Management",
     'application': True,
     'installable': True,
+    'data': [
+        'security/res_groups.xml',
+        'security/ir.model.access.csv',
+    ]
 }
