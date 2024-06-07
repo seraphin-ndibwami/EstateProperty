@@ -1,4 +1,5 @@
 from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 
 
 class EstateProperty(models.Model):
@@ -76,3 +77,19 @@ class EstateProperty(models.Model):
                     "message": _("This availability date ( %s ) is in the past." % self.date_availability)
                 }
             }
+
+    def action_set_sold_property(self):
+        self.ensure_one()
+        if self.state == "canceled":
+            raise UserError("You cannot set a canceled property to sold")
+
+        self.state = 'sold'
+        return True
+
+    def action_set_canceled_property(self):
+        self.ensure_one()
+        if self.state == "sold":
+            raise UserError("You cannot set a sold property to canceled")
+
+        self.state = 'canceled'
+        return True

@@ -39,8 +39,17 @@
         <field name="model">estate.property</field>
         <field name="arch" type="xml">
             <form string="Property" create="True" duplicate="True">
+                <header>
+                    <button name="action_set_sold_property"
+                            invisible="state == 'sold' or state == 'canceled'"
+                            string="sold"
+                            type="object"/>
+                    <button name="action_set_canceled_property"
+                            invisible="state == 'sold' or state == 'canceled'"
+                            string="cancel"
+                            type="object"/>
+                </header>
                 <sheet>
-
                     <div class="oe_title">
                         <label for="name" string="Name"/>
                         <h1>
@@ -71,7 +80,7 @@
                                     <field name="garden" string="Garden"/>
                                     <field name="garden_area" invisible="not garden"
                                            string="Garden Area(sqm)"/>
-                                    <field name="total_area" string="Total Area(sqm)" />
+                                    <field name="total_area" string="Total Area(sqm)"/>
                                 </group>
                             </group>
                         </page>
