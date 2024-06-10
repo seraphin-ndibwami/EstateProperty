@@ -5,6 +5,7 @@ from odoo.exceptions import UserError, ValidationError
 class EstateProperty(models.Model):
     _name = 'estate.property'
     _description = 'Real Estate Property'
+    _order = 'id desc'
 
     def _in_three_months(self):
         return fields.Date.add(fields.Date.context_today(self), months=3)
@@ -107,8 +108,6 @@ class EstateProperty(models.Model):
         """
         self.ensure_one()
         if self.selling_price and self.selling_price < self.expected_price * 0.9:
-            self.selling_price = 0
-            self.buyer_id = False
             raise ValidationError(
-                _(f"The selling price {self.selling_price} $ of {self.name} cannot be lower than 90% \
-                  of the expected price ({self.expected_price} $)"))
+                _(f"The selling price {self.selling_price} $ of {self.name} is lower than 90% of the expected "
+                  f"price ({self.expected_price} $)"))
